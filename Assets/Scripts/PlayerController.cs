@@ -8,22 +8,34 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float rotationSpeed = 10f;
     private bool isWalking = false;
+    [SerializeField] private GameInput gameInput;
     
     private void Update()
     {
-        Vector3 inputVectorDir = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.W))
-            inputVectorDir.z += 1;
-        if(Input.GetKey(KeyCode.S))
-            inputVectorDir.z -= 1;
-        if(Input.GetKey(KeyCode.D))
-            inputVectorDir.x += 1;
-        if(Input.GetKey(KeyCode.A))
-            inputVectorDir.x -= 1;
+        Vector3 inputVectorDir = gameInput.GetInputPlayerDirection();
+        float HeightPlayer = 2f;
+        float RadiusPlayer = 0.7f;
+        float maxDistance = moveSpeed * Time.deltaTime; //how can I determine this value? 
         
-        inputVectorDir = inputVectorDir.normalized; //For walking diagonally (like right and forward together)
-        transform.position += inputVectorDir * moveSpeed * Time.deltaTime;
-        transform.forward = Vector3.Slerp(transform.forward, inputVectorDir, rotationSpeed * Time.deltaTime); //for player look to the movement direction
+        //Physics.CapsuleCast() Returns true if the capsule(our player) intersects with a collider
+        bool canMove = !(Physics.CapsuleCast(transform.position, transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDir, maxDistance));
+        if (canMove)
+            transform.position += inputVectorDir * moveSpeed * Time.deltaTime; 
+        
+        //In case that 2 arrows key(like W+A) were pressed, the player could proceed in the direction that he can move on
+        if (!canMove)
+        {
+            Vector3 inputVectorDirX = new Vector3(inputVectorDir.x, 0, 0);
+            if (canMove = !(Physics.CapsuleCast(transform.position, transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirX, maxDistance)))
+                transform.position += inputVectorDirX * moveSpeed * Time.deltaTime;
+            else
+            {
+                Vector3 inputVectorDirZ = new Vector3(0, 0, inputVectorDir.z);
+                if (canMove = !(Physics.CapsuleCast(transform.position, transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirZ, maxDistance)))
+                    transform.position += inputVectorDirZ * moveSpeed * Time.deltaTime;
+            }
+        }
+        transform.forward = Vector3.Slerp(transform.forward, inputVectorDir, rotationSpeed * Time.deltaTime); //for player looks to the movement direction
 
         isWalking = (inputVectorDir != Vector3.zero); //isWalking=true if the player moving with arrows: W,A,S,D
     }

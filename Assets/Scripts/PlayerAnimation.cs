@@ -8,9 +8,14 @@ public class PLayerAnimation : MonoBehaviour
     const string IS_WALKING = "IsWalking";
     [SerializeField] private PlayerController player; 
     private Animator animator;
-    private void Update()
+
+    private void Awake()
     {
         animator = GetComponent<Animator>();
-        animator.SetBool(IS_WALKING, player.IsWalking());
+    }
+    
+    private void Update()
+    {
+        animator.SetBool(IS_WALKING, player.IsWalking()); //Updtes the condition "IsWalking" accordingly to the player moves
     }
 }
