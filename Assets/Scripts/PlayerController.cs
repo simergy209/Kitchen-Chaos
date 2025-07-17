@@ -9,8 +9,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 10f;
     private bool isWalking = false;
     [SerializeField] private GameInput gameInput;
+    private Vector3 lastInteractDir;
+    [SerializeField] private LayerMask counterLayerMask;
     
     private void Update()
+    {
+        HandelPlayerMovement();
+        HandleCollisions();
+        
+    }
+
+    public bool IsWalking()
+    {
+        return isWalking;
+    }
+
+    private void HandelPlayerMovement()
     {
         Vector3 inputVectorDir = gameInput.GetInputPlayerDirection();
         float HeightPlayer = 2f;
@@ -40,9 +54,26 @@ public class PlayerController : MonoBehaviour
         isWalking = (inputVectorDir != Vector3.zero); //isWalking=true if the player moving with arrows: W,A,S,D
     }
 
-    public bool IsWalking()
+    private void HandleCollisions()
     {
-        return isWalking;
+        float maxDistance = 1.5f;
+        Vector3 inputVectorDir = gameInput.GetInputPlayerDirection();
+        
+        //For cases where the player collides with counter and the button is not pressed anymore 
+        if(inputVectorDir != Vector3.zero)
+            lastInteractDir = inputVectorDir;
+        
+        //Checks if the player collide with the ClearCounter 
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, maxDistance, counterLayerMask))
+        {
+            ClearCounter clearCounter = hit.transform.GetComponent<ClearCounter>();
+            if(clearCounter !=null)
+                clearCounter.Interact();
+        }
+     
+            
+        
+        
     }
 
 }
