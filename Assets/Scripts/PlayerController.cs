@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,12 +12,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameInput gameInput;
     private Vector3 lastInteractDir;
     [SerializeField] private LayerMask counterLayerMask;
-    
+    private ClearCounter selectedCounter;
+
+    private void Start()
+    {
+        gameInput.OnInteract += GameInput_OnInteract; //Listener 1
+    }
+
+    private void GameInput_OnInteract(object sender, EventArgs e)
+    {
+        if (selectedCounter != null)
+            selectedCounter.Interact();
+            
+        float maxDistance = 1.5f;
+        Vector3 inputVectorDir = gameInput.GetInputPlayerDirection();
+        
+        //For cases where the player collides with counter and the button is not pressed anymore 
+        if(inputVectorDir != Vector3.zero)
+            lastInteractDir = inputVectorDir;
+        
+        //Checks if the player collide with the ClearCounter 
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, maxDistance, counterLayerMask))
+        {
+            ClearCounter clearCounter = hit.transform.GetComponent<ClearCounter>();
+            if(clearCounter !=null)
+                clearCounter.Interact();
+        }
+    }
     private void Update()
     {
         HandelPlayerMovement();
         HandleCollisions();
-        
     }
 
     public bool IsWalking()
@@ -67,13 +93,15 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, maxDistance, counterLayerMask))
         {
             ClearCounter clearCounter = hit.transform.GetComponent<ClearCounter>();
-            if(clearCounter !=null)
-                clearCounter.Interact();
+            if (clearCounter != null) {
+                if (selectedCounter != clearCounter)
+                    selectedCounter = clearCounter;
+                else
+                    selectedCounter = null;
+            }
+            else
+                selectedCounter = null;
         }
-     
-            
-        
-        
+        Debug.Log(selectedCounter);
     }
-
 }
