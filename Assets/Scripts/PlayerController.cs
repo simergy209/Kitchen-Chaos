@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public event EventHandler<OnSelectedCounterEventArgs> OnSelectedCounter;
+    public class OnSelectedCounterEventArgs : EventArgs
+    {
+        public ClearCounter selectedCounter;
+    }
+    
+    
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float rotationSpeed = 10f;
     private bool isWalking = false;
@@ -13,32 +20,28 @@ public class PlayerController : MonoBehaviour
     private Vector3 lastInteractDir;
     [SerializeField] private LayerMask counterLayerMask;
     private ClearCounter selectedCounter;
+    public static PlayerController Instance { get; private set; } //singleton pattern of player, equal to: new PlayerController()
+
+
+    private void Awake()
+    {
+        //Checks if the instance .
+        if (Instance == null)
+            Instance = this;
+        else
+            Debug.LogError("There is more than one Player Instance");
+    }
 
     private void Start()
     {
-        gameInput.OnInteract += GameInput_OnInteract; //Listener 1
-    }
-
-    private void GameInput_OnInteract(object sender, EventArgs e)
-    {
-        if (selectedCounter != null)
-            selectedCounter.Interact();
-            
-        float maxDistance = 1.5f;
-        Vector3 inputVectorDir = gameInput.GetInputPlayerDirection();
-        
-        //For cases where the player collides with counter and the button is not pressed anymore 
-        if(inputVectorDir != Vector3.zero)
-            lastInteractDir = inputVectorDir;
-        
-        //Checks if the player collide with the ClearCounter 
-        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, maxDistance, counterLayerMask))
+        //One listenner
+        gameInput.OnInteract += (object sender, EventArgs e) =>
         {
-            ClearCounter clearCounter = hit.transform.GetComponent<ClearCounter>();
-            if(clearCounter !=null)
-                clearCounter.Interact();
-        }
+            if (selectedCounter != null)
+                selectedCounter.Interact();
+        };
     }
+    
     private void Update()
     {
         HandelPlayerMovement();
@@ -82,26 +85,34 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCollisions()
     {
-        float maxDistance = 1.5f;
         Vector3 inputVectorDir = gameInput.GetInputPlayerDirection();
         
         //For cases where the player collides with counter and the button is not pressed anymore 
         if(inputVectorDir != Vector3.zero)
             lastInteractDir = inputVectorDir;
         
-        //Checks if the player collide with the ClearCounter 
+        float maxDistance = 1.5f;
+        //Checks if the player collide with the ClearCounter then set the selectedCounter to clearCounter
         if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, maxDistance, counterLayerMask))
         {
             ClearCounter clearCounter = hit.transform.GetComponent<ClearCounter>();
-            if (clearCounter != null) {
+            if (clearCounter != null)
+            {
                 if (selectedCounter != clearCounter)
-                    selectedCounter = clearCounter;
-                else
-                    selectedCounter = null;
+                    SetSelectedCounter(clearCounter);
             }
             else
-                selectedCounter = null;
+                   SetSelectedCounter(null);
         }
-        Debug.Log(selectedCounter);
+        else 
+            SetSelectedCounter(null);
+            
+        //Debug.Log(selectedCounter);
+    }
+
+    private void SetSelectedCounter(ClearCounter clearCounter)
+    {
+        selectedCounter = clearCounter;
+        OnSelectedCounter.Invoke(this, new OnSelectedCounterEventArgs { selectedCounter = selectedCounter }); //If OnSelectedCounter!=null, calls the OnSelectedCounter with the parameters
     }
 }

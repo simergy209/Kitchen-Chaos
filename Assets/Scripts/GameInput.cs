@@ -13,14 +13,13 @@ public class GameInput : MonoBehaviour
         inputActionsPlayer = new InputActionsPlayer(); //Construct the InputActionsPlayer
         inputActionsPlayer.Player.Enable();
         
-        inputActionsPlayer.Player.Interact.performed += GameInput_inputActionsPlayer; //Adds the event
+        //Adds the event and checks if OnInteract!=null, calls the OnInteract(this, EventArgs.Empty)
+        inputActionsPlayer.Player.Interact.performed += (InputAction.CallbackContext context) =>
+        {
+            OnInteract?.Invoke(this, EventArgs.Empty);
+        };
     }
-
-    private void GameInput_inputActionsPlayer(InputAction.CallbackContext context)
-    {
-        OnInteract?.Invoke(this, EventArgs.Empty); //If OnInteract!=null, calls the OnInteract(this, EventArgs.Empty)
-    }
-
+    
     public Vector3 GetInputPlayerDirection()
     {
         Vector2 inputVectorDir = inputActionsPlayer.Player.Move.ReadValue<Vector2>();
