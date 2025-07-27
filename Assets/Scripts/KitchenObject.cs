@@ -6,7 +6,7 @@ public class KitchenObject : MonoBehaviour
 {
     [SerializeField] private ScriptableKitchenObjects scriptableKitchenObjects;
     
-    private ClearCounter clearCounter;
+    private IKitchenObjectParent kitchenObjectParent;
 
     public ScriptableKitchenObjects GetScriptableKitchenObjects()
     {
@@ -14,28 +14,28 @@ public class KitchenObject : MonoBehaviour
         return scriptableKitchenObjects;
     }
 
-    public void SetClearCounter(ClearCounter clearCounter)
+    public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     //Change the kitchen object parent (the clear counter)
     {
-        //this.clearCounter is the previous clear counter and clearCounter at the input is the new one
-        //So we check if we have already parent we clear it and if not we set it to the clearCounter parameter
-        if (this.clearCounter != null) {
-            this.clearCounter.ClearKitchenObject();
+        //this.kitchenObjectParent is the previous kitchenObjectParent and kitchenObjectParent at the input is the new one
+        //So we check if we have already parent we clear it and if not we set it to the kitchenObjectParent parameter
+        if (this.kitchenObjectParent != null) {
+            this.kitchenObjectParent.ClearKitchenObject();
         }
         
-        this.clearCounter = clearCounter;
-        if (clearCounter.HasKitchenObject())
-            Debug.LogError("Counter already has a kitchenObject");
+        this.kitchenObjectParent = kitchenObjectParent;
+        if (kitchenObjectParent.HasKitchenObject())
+            Debug.LogError("IKitchenObjectParent already has a kitchenObject");
         
-        clearCounter.SetKitchenObject(this);
+        kitchenObjectParent.SetKitchenObject(this);
         
-        transform.parent = clearCounter.GetKitchenObjectTransform();
+        transform.parent = kitchenObjectParent.GetKitchenObjectTransform();
         transform.localPosition = Vector3.zero;
     }
 
-    public ClearCounter GetClearCounter()
+    public IKitchenObjectParent GetKitchenObjectParent()
     {
-        return clearCounter;
+        return kitchenObjectParent;
     }
 
 }

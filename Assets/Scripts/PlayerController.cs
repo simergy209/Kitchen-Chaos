@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IKitchenObjectParent
 {
     public event EventHandler<OnSelectedCounterEventArgs> OnSelectedCounter;
     public class OnSelectedCounterEventArgs : EventArgs
@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 lastInteractDir;
     [SerializeField] private LayerMask counterLayerMask;
     private ClearCounter selectedCounter;
+    [SerializeField] private GameObject kitchenObjectHoldPoint;
+    private KitchenObject kitchenObject;
+
     public static PlayerController Instance { get; private set; } //singleton pattern of player, equal to: new PlayerController()
 
 
@@ -38,7 +41,7 @@ public class PlayerController : MonoBehaviour
         gameInput.OnInteract += (object sender, EventArgs e) =>
         {
             if (selectedCounter != null)
-                selectedCounter.Interact();
+                selectedCounter.Interact(this);
         };
     }
     
@@ -114,5 +117,24 @@ public class PlayerController : MonoBehaviour
     {
         selectedCounter = clearCounter;
         OnSelectedCounter.Invoke(this, new OnSelectedCounterEventArgs { selectedCounter = selectedCounter }); //If OnSelectedCounter!=null, calls the OnSelectedCounter with the parameters
+    }
+    public Transform GetKitchenObjectTransform() {
+        return kitchenObjectHoldPoint.transform;
+    }
+
+    public void SetKitchenObject(KitchenObject kitchenObject) {
+        this.kitchenObject = kitchenObject;
+    }
+
+    public KitchenObject GetKitchenObject() {
+        return kitchenObject;
+    }
+
+    public void ClearKitchenObject() {
+        kitchenObject = null;
+    }
+
+    public bool HasKitchenObject() {
+        return kitchenObject != null;
     }
 }
