@@ -14,39 +14,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1752674317
+  lastShownTimestamp: 1753598472
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1752674317
+  checkedLastUpdateTimestamp: 1753598472
   lastQOTDResponse:
-    questionId: 201
-    questionText: When you create a new script, do you always have to extend MonoBehaviour?
+    questionId: 205
+    questionText: 'Is this valid code?
+
+      <p>Color? myColor = null;</p>'
     answerA: Yes
-    answerB: No
-    answerC: Only if you want to use it as a Game Object Component
+    answerB: No, myColor is a struct and cannot be null
+    answerC: 
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1752674317
+  lastQotdTimestamp: 1753598472
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle.png
     topText: All my Courses (and Games) in one Bundle! DEEP DISCOUNT ONLY THIS SUMMER!
     topLink: summer2025bundle
-    bottomText: AWESOME NEW Unity Bundle with Tools and Assets 97% OFF!
-    bottomLink: humblebundle
-  lastDynamicHeaderTimestamp: 1752674317
+    bottomText: Get my Code Monkey Toolkit and make games BETTER and FASTER! 50%
+      OFF right now!
+    bottomLink: toolkit
+  lastDynamicHeaderTimestamp: 1753598472
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1752674317
+  websiteLatestMessageTimestamp: 1753598472
   websiteLatestVideos:
     videos:
-    - youTubeId: 4kg2N-t2tWI
-      title: How REAL Developers Build Complex Games!
-    - youTubeId: OOVrtfWLdvE
-      title: TOP 10 FREE NEW Assets JULY 2025!
-    - youTubeId: ALogEuL6QdA
-      title: The BEST Design Patterns for Game Dev! (Save Time and make BETTER Games!)
-    - youTubeId: 7RwMD97Le7I
-      title: Learn C# by DOING, FizzBuzz Beginner Project (Overview + Walkthrough)
-  websiteLatestVideosTimestamp: 1752674317
+    - youTubeId: YMMS621ZoI8
+      title: NEW Steam 2025 Marketing Tips you NEED to know!
+    - youTubeId: SfZquiwnEPQ
+      title: TOP 10 NEW Systems and Tools JUNE 2025! | Unity Asset Store
+    - youTubeId: oBCXk_6Fft0
+      title: This MISTAKE cost $28,000,000!
+    - youTubeId: TYgEWbK-mCc
+      title: Learn C# by DOING, Hangman Beginner Project (Overview + Walkthrough)
+  websiteLatestVideosTimestamp: 1753598472
