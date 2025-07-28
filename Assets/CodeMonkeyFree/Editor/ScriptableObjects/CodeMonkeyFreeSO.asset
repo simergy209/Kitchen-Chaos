@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1753598472
+  lastShownTimestamp: 1753688662
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1753598472
+  checkedLastUpdateTimestamp: 1753688662
   lastQOTDResponse:
     questionId: 205
     questionText: 'Is this valid code?
@@ -29,7 +29,7 @@ MonoBehaviour:
     answerC: 
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1753598472
+  lastQotdTimestamp: 1753688662
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle.png
     topText: All my Courses (and Games) in one Bundle! DEEP DISCOUNT ONLY THIS SUMMER!
@@ -37,11 +37,11 @@ MonoBehaviour:
     bottomText: Get my Code Monkey Toolkit and make games BETTER and FASTER! 50%
       OFF right now!
     bottomLink: toolkit
-  lastDynamicHeaderTimestamp: 1753598472
+  lastDynamicHeaderTimestamp: 1753688662
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1753598472
+  websiteLatestMessageTimestamp: 1753688662
   websiteLatestVideos:
     videos:
     - youTubeId: YMMS621ZoI8
@@ -52,4 +52,4 @@ MonoBehaviour:
       title: This MISTAKE cost $28,000,000!
     - youTubeId: TYgEWbK-mCc
       title: Learn C# by DOING, Hangman Beginner Project (Overview + Walkthrough)
-  websiteLatestVideosTimestamp: 1753598472
+  websiteLatestVideosTimestamp: 1753688662

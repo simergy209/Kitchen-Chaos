@@ -7,7 +7,7 @@ public class ScriptableKitchenObjects : ScriptableObject
 {
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite sprite;
-    [SerializeField] private string name;
+    [SerializeField] private string objectName;
 
     public GameObject GetPrefab()
     {

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     public event EventHandler<OnSelectedCounterEventArgs> OnSelectedCounter;
     public class OnSelectedCounterEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
     
     
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     [SerializeField] private GameInput gameInput;
     private Vector3 lastInteractDir;
     [SerializeField] private LayerMask counterLayerMask;
-    private ClearCounter selectedCounter;
+    private BaseCounter selectedCounter;
     [SerializeField] private GameObject kitchenObjectHoldPoint;
     private KitchenObject kitchenObject;
 
@@ -98,11 +98,11 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         //Checks if the player collide with the ClearCounter then set the selectedCounter to clearCounter
         if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, maxDistance, counterLayerMask))
         {
-            ClearCounter clearCounter = hit.transform.GetComponent<ClearCounter>();
-            if (clearCounter != null)
+            BaseCounter baseCounter = hit.transform.GetComponent<BaseCounter>();
+            if (baseCounter != null)
             {
-                if (selectedCounter != clearCounter)
-                    SetSelectedCounter(clearCounter);
+                if (selectedCounter != baseCounter)
+                    SetSelectedCounter(baseCounter);
             }
             else
                    SetSelectedCounter(null);
@@ -113,10 +113,10 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         //Debug.Log(selectedCounter);
     }
 
-    private void SetSelectedCounter(ClearCounter clearCounter)
+    private void SetSelectedCounter(BaseCounter selectedCounter)
     {
-        selectedCounter = clearCounter;
-        OnSelectedCounter.Invoke(this, new OnSelectedCounterEventArgs { selectedCounter = selectedCounter }); //If OnSelectedCounter!=null, calls the OnSelectedCounter with the parameters
+        this.selectedCounter = selectedCounter;
+        OnSelectedCounter?.Invoke(this, new OnSelectedCounterEventArgs { selectedCounter = selectedCounter }); //If OnSelectedCounter!=null, calls the OnSelectedCounter with the parameters
     }
     public Transform GetKitchenObjectTransform() {
         return kitchenObjectHoldPoint.transform;
