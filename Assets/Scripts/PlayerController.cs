@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         
         //Physics.CapsuleCast() Returns true if the capsule(our player) intersects with a collider
         bool canMove = !(Physics.CapsuleCast(transform.position, transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDir, maxDistance));
+        
         if (canMove)
             transform.position += inputVectorDir * moveSpeed * Time.deltaTime; 
         
@@ -72,12 +73,20 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         if (!canMove)
         {
             Vector3 inputVectorDirX = new Vector3(inputVectorDir.x, 0, 0);
-            if (canMove = !(Physics.CapsuleCast(transform.position, transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirX, maxDistance)))
+            
+            //Trying to move in the X axis and there is nothing on there, then we can move
+            canMove = inputVectorDir.x != 0 && !(Physics.CapsuleCast(transform.position,
+                transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirX, maxDistance));
+            if (canMove)
                 transform.position += inputVectorDirX * moveSpeed * Time.deltaTime;
             else
             {
                 Vector3 inputVectorDirZ = new Vector3(0, 0, inputVectorDir.z);
-                if (canMove = !(Physics.CapsuleCast(transform.position, transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirZ, maxDistance)))
+                
+                //Trying to move in the Z axis and there is nothing on there, then we can move
+                canMove = inputVectorDir.z != 0 && !(Physics.CapsuleCast(transform.position,
+                    transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirZ, maxDistance));
+                if (canMove)
                     transform.position += inputVectorDirZ * moveSpeed * Time.deltaTime;
             }
         }
