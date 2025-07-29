@@ -43,6 +43,11 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
             if (selectedCounter != null)
                 selectedCounter.Interact(this);
         };
+        gameInput.OnInteractCutting += (object sender, EventArgs e) =>
+        {
+            if (selectedCounter != null)
+                selectedCounter.InteractCutting(this);
+        };
     }
     
     private void Update()

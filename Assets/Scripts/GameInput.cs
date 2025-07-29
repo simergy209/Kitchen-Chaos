@@ -7,16 +7,22 @@ using UnityEngine.InputSystem;
 public class GameInput : MonoBehaviour
 {
     private InputActionsPlayer inputActionsPlayer;
-    public event EventHandler OnInteract; 
+    public event EventHandler OnInteract;
+    public event EventHandler OnInteractCutting;
     private void Awake()
     { 
         inputActionsPlayer = new InputActionsPlayer(); //Construct the InputActionsPlayer
         inputActionsPlayer.Player.Enable();
         
-        //Adds the event and checks if OnInteract!=null, calls the OnInteract(this, EventArgs.Empty)
+        //Adds the event(E keyboard) and checks if OnInteract!=null, calls the OnInteract(this, EventArgs.Empty)
         inputActionsPlayer.Player.Interact.performed += (InputAction.CallbackContext context) =>
         {
             OnInteract?.Invoke(this, EventArgs.Empty);
+        };
+        //Adds the event(F keyboard) and checks if OnInteractCutting!=null, calls the OnInteractCutting(this, EventArgs.Empty)
+        inputActionsPlayer.Player.InteractCutting.performed += (InputAction.CallbackContext context) =>
+        {
+            OnInteractCutting?.Invoke(this, EventArgs.Empty);
         };
     }
     

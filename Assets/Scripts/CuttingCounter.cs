@@ -2,17 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingCounter : MonoBehaviour
+public class CuttingCounter : BaseCounter
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private CuttingRecipeSO[] cuttingRecipeSoArray;
+
+    public override void Interact(PlayerController player)
     {
-        
+        //There is no kitchenObject on the clearCounter and the player carrying one, then place it on the clearCounter
+        if (!HasKitchenObject() && player.HasKitchenObject())
+            player.GetKitchenObject().SetKitchenObjectParent(this);
+
+        //There is a kitchenObject on the clearCounter and the player is not carrying anything,then give it to the player
+        else if (HasKitchenObject() && !player.HasKitchenObject())
+            GetKitchenObject().SetKitchenObjectParent(player);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void InteractCutting(PlayerController player)
     {
-        
+        if (HasKitchenObject())
+        {
+            ScriptableKitchenObjects outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetScriptableKitchenObjects());
+            if (outputKitchenObjectSO != null)
+            {
+                GetKitchenObject().DestroyKitchenObject();
+            
+                KitchenObject.SpwanKitchenObject(outputKitchenObjectSO, this);
+            }
+        }
+    }
+
+    private ScriptableKitchenObjects GetOutputForInput(ScriptableKitchenObjects inputKitchenObjectSO)
+    {
+        foreach (CuttingRecipeSO cuttingRecipeSO in cuttingRecipeSoArray)
+        {
+            if (cuttingRecipeSO.input == inputKitchenObjectSO)
+                return cuttingRecipeSO.output;
+        }
+        return null;
     }
 }
