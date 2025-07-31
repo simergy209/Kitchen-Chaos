@@ -14,6 +14,8 @@ public class CuttingCounter : BaseCounter
         public float progressNormalized;
     }
 
+    public event EventHandler OnCut;
+
     public override void Interact(PlayerController player)
     {
         //There is no kitchenObject on the Counter and the player carrying one that it is a cutKitchenObjectSO,
@@ -37,6 +39,7 @@ public class CuttingCounter : BaseCounter
             ScriptableKitchenObjects outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetScriptableKitchenObjects());
             if (outputKitchenObjectSO != null) {
                 cuttingProgress++;
+                OnCut?.Invoke(this, EventArgs.Empty);
                 int maxCuttingProgress = getCuttingRecipeSO(GetKitchenObject().GetScriptableKitchenObjects()).maxCuttingProgress;
                 OnCuttingProgress?.Invoke(this, new OnCuttingProgressEventArgs { progressNormalized = (float)cuttingProgress / maxCuttingProgress });
                 if (cuttingProgress >= getCuttingRecipeSO(GetKitchenObject().GetScriptableKitchenObjects())

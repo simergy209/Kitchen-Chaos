@@ -12,10 +12,26 @@ public class CuttingProgressUI : MonoBehaviour
 
     private void Start()
     {
-        progressBarImage.fillAmount = 0;
         cuttingCounter.OnCuttingProgress += (object sender, CuttingCounter.OnCuttingProgressEventArgs args) =>
         {
             progressBarImage.fillAmount = args.progressNormalized;
+            if (args.progressNormalized == 0f || args.progressNormalized == 1f) 
+                Hide();
+            else
+                Show();
         };
+        progressBarImage.fillAmount = 0;
+        Hide();
     }
+
+    private void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+    
 }
