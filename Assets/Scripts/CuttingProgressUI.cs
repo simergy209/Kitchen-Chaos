@@ -12,6 +12,7 @@ public class CuttingProgressUI : MonoBehaviour
 
     private void Start()
     {
+        //event for F keyboard pressing that handles on the bar cutting progress 
         cuttingCounter.OnCuttingProgress += (object sender, CuttingCounter.OnCuttingProgressEventArgs args) =>
         {
             progressBarImage.fillAmount = args.progressNormalized;
