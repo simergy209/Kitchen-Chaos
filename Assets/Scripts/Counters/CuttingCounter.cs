@@ -3,16 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter
+public class CuttingCounter : BaseCounter, IHasProgress
 {
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSoArray;
     private int cuttingProgress;
-    public event EventHandler<OnCuttingProgressEventArgs> OnCuttingProgress;
-
-    public class OnCuttingProgressEventArgs : EventArgs
-    {
-        public float progressNormalized;
-    }
+    public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     public event EventHandler OnCut;
 
@@ -25,7 +20,7 @@ public class CuttingCounter : BaseCounter
                 player.GetKitchenObject().SetKitchenObjectParent(this);
                 cuttingProgress = 0;
                 int maxCuttingProgress = getCuttingRecipeSO(GetKitchenObject().GetScriptableKitchenObjects()).maxCuttingProgress;
-                OnCuttingProgress?.Invoke(this, new OnCuttingProgressEventArgs { progressNormalized = (float)cuttingProgress / maxCuttingProgress });
+                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progressNormalized = (float)cuttingProgress / maxCuttingProgress });
             }
         }
         //There is a kitchenObject on the Counter and the player is not carrying anything,then give it to the player
@@ -41,7 +36,7 @@ public class CuttingCounter : BaseCounter
                 cuttingProgress++;
                 OnCut?.Invoke(this, EventArgs.Empty);
                 int maxCuttingProgress = getCuttingRecipeSO(GetKitchenObject().GetScriptableKitchenObjects()).maxCuttingProgress;
-                OnCuttingProgress?.Invoke(this, new OnCuttingProgressEventArgs { progressNormalized = (float)cuttingProgress / maxCuttingProgress });
+                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progressNormalized = (float)cuttingProgress / maxCuttingProgress });
                 if (cuttingProgress >= getCuttingRecipeSO(GetKitchenObject().GetScriptableKitchenObjects())
                         .maxCuttingProgress) {
                     GetKitchenObject().DestroyKitchenObject();

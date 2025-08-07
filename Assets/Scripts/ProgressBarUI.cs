@@ -5,15 +5,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class CuttingProgressUI : MonoBehaviour
+public class ProgressBarUI : MonoBehaviour
 {
     [SerializeField] private Image progressBarImage;
-    [SerializeField] private CuttingCounter cuttingCounter;
+    [SerializeField] private GameObject hasProgressGameObject;
+    private IHasProgress hasProgress;
 
     private void Start()
     {
-        //event for F keyboard pressing that handles on the bar cutting progress 
-        cuttingCounter.OnCuttingProgress += (object sender, CuttingCounter.OnCuttingProgressEventArgs args) =>
+        //event for handles on the progress bar, creates a gameObject for hasProgress because this is an interface and cant expose on unity editor
+        hasProgress = hasProgressGameObject.GetComponent<IHasProgress>();
+        
+        if(hasProgress == null)
+            Debug.LogError("Game Object" + hasProgressGameObject + " has no IHasProgress component");
+        
+        hasProgress.OnProgressChanged += (object sender, IHasProgress.OnProgressChangedEventArgs args) =>
         {
             progressBarImage.fillAmount = args.progressNormalized;
             if (args.progressNormalized == 0f || args.progressNormalized == 1f) 
