@@ -23,9 +23,19 @@ public class CuttingCounter : BaseCounter, IHasProgress
                 OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progressNormalized = (float)cuttingProgress / maxCuttingProgress });
             }
         }
+        
         //There is a kitchenObject on the Counter and the player is not carrying anything,then give it to the player
         else if (HasKitchenObject() && !player.HasKitchenObject())
             GetKitchenObject().SetKitchenObjectParent(player);
+        
+        //There is a kitchenObject on the Counter and the player is carrying a plate, we add the kitchenObject to the plate
+        else if (HasKitchenObject() && player.HasKitchenObject()) {
+            if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject)) {
+                if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetScriptableKitchenObjects())) {
+                    GetKitchenObject().DestroyKitchenObject();
+                }
+            }
+        }
     }
 
     public override void InteractCutting(PlayerController player)

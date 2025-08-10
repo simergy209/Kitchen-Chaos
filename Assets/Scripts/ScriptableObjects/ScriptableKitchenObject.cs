@@ -6,7 +6,7 @@ using UnityEngine;
 public class ScriptableKitchenObjects : ScriptableObject
 {
     [SerializeField] private GameObject prefab;
-    [SerializeField] private Sprite sprite;
+    [SerializeField] public Sprite sprite;
     [SerializeField] private string objectName;
 
     public GameObject GetPrefab()

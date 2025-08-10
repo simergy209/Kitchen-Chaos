@@ -84,6 +84,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                 OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progressNormalized = (float)fryingTimer / fryingRecipeSO.maxFryingProgress });
             }
         }
+        
         //There is a kitchenObject on the Counter and the player is not carrying anything,then give it to the player
         else if (HasKitchenObject() && !player.HasKitchenObject()) {
             GetKitchenObject().SetKitchenObjectParent(player);
@@ -92,7 +93,15 @@ public class StoveCounter : BaseCounter, IHasProgress
             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progressNormalized = 0 });
 
         }
-            
+        
+        //There is a kitchenObject on the Counter and the player is carrying a plate, we add the kitchenObject to the plate
+        else if (HasKitchenObject() && player.HasKitchenObject()) {
+            if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject)) {
+                if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetScriptableKitchenObjects())) {
+                    GetKitchenObject().DestroyKitchenObject();
+                }
+            }
+        }
         
     }
     

@@ -16,6 +16,8 @@ public class PlatesCounterVisual : MonoBehaviour
      }
 
      private void Start()
+     //When the event OnPlateSpwaned is called, we instantiate another plate and position it on the stack and adding 1 to the list
+     //When the event OnPlateRemoved is called, we remove the top plate from the stack 
      {
           platesCounter.OnPlateSpwaned += (sender, args) =>
           {

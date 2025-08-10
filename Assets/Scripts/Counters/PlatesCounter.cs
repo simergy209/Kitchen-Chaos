@@ -16,6 +16,7 @@ public class PlatesCounter : BaseCounter
     
 
     private void Update()
+    //Checks if the time was passed (4 sec) and the number of plates on the counter is less the 4, we spwaned another one and call the event OnPlateSpwaned
     {
         spwanPlateTimer += Time.deltaTime;
         if(spwanPlateTimer > spwanPlateTimerMax) {
@@ -28,6 +29,7 @@ public class PlatesCounter : BaseCounter
     }
 
     public override void Interact(PlayerController player)
+    //Checks if there is a plate on the counter and the player holds nothing, we gave the plate to the player and call the event OnPlateSpwaned
     {
         if (spwanPlateAmount > 0 && !player.HasKitchenObject()) {
             spwanPlateAmount--;
