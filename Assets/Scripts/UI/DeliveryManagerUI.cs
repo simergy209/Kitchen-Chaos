@@ -12,12 +12,27 @@ public class DeliveryManagerUI : MonoBehaviour
         recipeTemplate.gameObject.SetActive(false);
     }
 
-    //First we destroy all the recipes (except the recipeTemplate) from the previous event
+    private void Start()
+    {
+        DeliveryManager.Instance.OnRecipespwaned += (sender, args) =>
+        {
+            UpdateVisual();
+        };
+
+        DeliveryManager.Instance.OnRecipeCompleted += (sender, args) =>
+        {
+            UpdateVisual();
+        };
+        UpdateVisual();
+    }
+    
+    //First we destroy all the recipes from the container (except the recipeTemplate) 
     //Then we spwan all the recipes that wait
     private void UpdateVisual()
     {
-        foreach (Transform child in transform) {
-            if (child ==  recipeTemplate) continue;
+        foreach (Transform child in container) {
+            if (child ==  recipeTemplate) 
+                continue;
             Destroy(child.gameObject);
         }
 
@@ -25,6 +40,7 @@ public class DeliveryManagerUI : MonoBehaviour
         {
             Transform recipeTransform = Instantiate(recipeTemplate, container);
             recipeTransform.gameObject.SetActive(true);
+            recipeTransform.GetComponent<DeliveryManagerSingleUI>().SetRecipeSO(recipeSO);
         }
     }
 }

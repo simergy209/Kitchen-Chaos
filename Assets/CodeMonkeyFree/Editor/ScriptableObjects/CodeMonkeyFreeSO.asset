@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1755007845
+  lastShownTimestamp: 1755094262
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1755007846
+  checkedLastUpdateTimestamp: 1755094262
   lastQOTDResponse:
     questionId: 210
     questionText: What is the significance of January 1st, 1970?
@@ -27,7 +27,7 @@ MonoBehaviour:
     answerC: 
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1755007846
+  lastQotdTimestamp: 1755094262
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle.png
     topText: All my Courses (and Games) in one Bundle! DEEP DISCOUNT ONLY THIS SUMMER!
@@ -35,11 +35,11 @@ MonoBehaviour:
     bottomText: Get my Code Monkey Toolkit and make games BETTER and FASTER! 50%
       OFF right now!
     bottomLink: toolkit
-  lastDynamicHeaderTimestamp: 1755007846
+  lastDynamicHeaderTimestamp: 1755094262
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1755007846
+  websiteLatestMessageTimestamp: 1755094262
   websiteLatestVideos:
     videos:
     - youTubeId: nGKd4yTP3M8
@@ -50,4 +50,4 @@ MonoBehaviour:
       title: Are Old Tutorials OBSOLETE?
     - youTubeId: DaKW4kqFlao
       title: How to LEARN new Skills on HARD MODE!
-  websiteLatestVideosTimestamp: 1755007846
+  websiteLatestVideosTimestamp: 1755094262
