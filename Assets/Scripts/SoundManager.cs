@@ -1,12 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager Instance { get; private set; }
+    
     [SerializeField] private AudioClipRefsSO audioClipRefsSO;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         DeliveryManager.Instance.OnRecipeSuccess += (sender, args) =>
@@ -17,6 +26,26 @@ public class SoundManager : MonoBehaviour
         {
             PlaySound(audioClipRefsSO.deliveryFail, DeliveryCounter.Instance.transform.position);
         };
+        CuttingCounter.OnAnyCut += (sender, args) =>
+        {
+            CuttingCounter cuttingCounter = sender as CuttingCounter;
+            PlaySound(audioClipRefsSO.chop, cuttingCounter.transform.position);
+        };
+        PlayerController.Instance.OnPickedObject += (sender, args) =>
+        {
+            PlaySound(audioClipRefsSO.objectPickup, PlayerController.Instance.transform.position);
+        };
+        BaseCounter.OnAnyObjectDroped += (sender, args) =>
+        {
+            BaseCounter baseCounter = sender as BaseCounter;
+            PlaySound(audioClipRefsSO.objectDrop, baseCounter.transform.position);
+        };
+        TrashCounter.OnAnyObjectTrashed += (sender, args) =>
+        {
+            TrashCounter trashCounter = sender as TrashCounter;
+            PlaySound(audioClipRefsSO.trash, trashCounter.transform.position);
+        };
+        
     }
 
     private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f)
@@ -24,9 +53,14 @@ public class SoundManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(audioClip, position, volume);
     }
     
-    private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 1f)
+    private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 10f)
     {
         AudioSource.PlayClipAtPoint(audioClipArray[Random.Range(0, audioClipArray.Length)], position, volume);
+    }
+
+    public void PlayFootstepsSound(Vector3 position, float volume)
+    {
+        PlaySound(audioClipRefsSO.footstep, position, volume);
     }
     
 }
