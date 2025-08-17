@@ -41,11 +41,13 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         //One listenner
         gameInput.OnInteract += (object sender, EventArgs e) =>
         {
+            if (!GameManager.Instance.IsGamePlaying()) return;
             if (selectedCounter != null)
                 selectedCounter.Interact(this);
         };
         gameInput.OnInteractCutting += (object sender, EventArgs e) =>
         {
+            if (!GameManager.Instance.IsGamePlaying()) return;
             if (selectedCounter != null)
                 selectedCounter.InteractCutting(this);
         };
@@ -108,9 +110,10 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         //For cases where the player collides with counter and the button is not pressed anymore 
         if(inputVectorDir != Vector3.zero)
             lastInteractDir = inputVectorDir;
-        
+
         float maxDistance = 1.5f;
-        //Checks if the player collide with the ClearCounter then set the selectedCounter to clearCounter
+        
+        //Checks if the player collide with Counter then set the selectedCounter to this Counter
         if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit hit, maxDistance, counterLayerMask))
         {
             BaseCounter baseCounter = hit.transform.GetComponent<BaseCounter>();

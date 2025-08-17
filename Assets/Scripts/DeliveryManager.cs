@@ -19,6 +19,7 @@ public class DeliveryManager : MonoBehaviour
     private float spwanRecipeTimer;
     private float spwanRecipeTimerMax = 4f;
     private int waitingRecipeMax = 4;
+    private int recipesDeliveredNum = 0;
 
 
     private void Awake()
@@ -74,6 +75,7 @@ public class DeliveryManager : MonoBehaviour
                 //After we found a match for all the ingredients in the plate and in the recipe 
                 if (allIngredientsMatch) {
                     Debug.Log("Player delivered the correct recipe!");
+                    recipesDeliveredNum++;
                     waitingRecipeSOList.RemoveAt(i);
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
                     OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
@@ -88,5 +90,10 @@ public class DeliveryManager : MonoBehaviour
     public List<RecipeSO> GetWaitingRecipeSOList()
     {
         return waitingRecipeSOList;
+    }
+
+    public int GetRecipesDeliveredNum()
+    {
+        return recipesDeliveredNum;
     }
 }
