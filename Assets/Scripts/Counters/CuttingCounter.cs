@@ -7,6 +7,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
 {
     //Static event because we have a few cuttingCounters 
     public static event EventHandler OnAnyCut;
+    public static void ResetStaticData() {
+        OnAnyCut = null; 
+    }
     
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSoArray;
     private int cuttingProgress;

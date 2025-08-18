@@ -7,6 +7,10 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 //The base counter that contains all the shared features 
 {
     public static event EventHandler OnAnyObjectDroped;
+    public static void ResetStaticData() {
+        OnAnyObjectDroped = null;
+    }
+    
     [SerializeField] private GameObject counterTopPoint;
     private KitchenObject kitchenObject;
     

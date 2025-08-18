@@ -27,13 +27,15 @@ public class GameInput : MonoBehaviour
 
         inputActionsPlayer.Player.Pause.performed += (InputAction.CallbackContext context) => { OnPauseAction?.Invoke(this, EventArgs.Empty); };
     }
-
+    
     private void OnDestroy()
+    //This function called when the object is destroyed, and its unsubscribe from those events
     {
-        inputActionsPlayer.Player.Interact.performed += (InputAction.CallbackContext context) => { OnInteract?.Invoke(this, EventArgs.Empty); };
-        inputActionsPlayer.Player.InteractCutting.performed += (InputAction.CallbackContext context) => { OnInteractCutting?.Invoke(this, EventArgs.Empty); };
-        inputActionsPlayer.Player.Pause.performed += (InputAction.CallbackContext context) => { OnPauseAction?.Invoke(this, EventArgs.Empty); };
+        inputActionsPlayer.Player.Interact.performed -= (InputAction.CallbackContext context) => { OnInteract?.Invoke(this, EventArgs.Empty); };
+        inputActionsPlayer.Player.InteractCutting.performed -= (InputAction.CallbackContext context) => { OnInteractCutting?.Invoke(this, EventArgs.Empty); };
+        inputActionsPlayer.Player.Pause.performed -= (InputAction.CallbackContext context) => { OnPauseAction?.Invoke(this, EventArgs.Empty); };
         
+        //Clean up that object and free the memory
         inputActionsPlayer.Dispose();
     }
 
