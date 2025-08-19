@@ -12,6 +12,17 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnInteract;
     public event EventHandler OnInteractCutting;
     public event EventHandler OnPauseAction;
+
+    public enum Binding
+    {
+        MoveUp,
+        MoveDown,
+        MoveLeft,
+        MoveRight,
+        Interact,
+        InteractAlternate,
+        Pause,
+    }
     private void Awake()
     { 
         Instance = this;
@@ -44,5 +55,39 @@ public class GameInput : MonoBehaviour
         Vector2 inputVectorDir = inputActionsPlayer.Player.Move.ReadValue<Vector2>();
         inputVectorDir = inputVectorDir.normalized; //For walking diagonally (like right and forward together)
         return new Vector3(inputVectorDir.x, 0, inputVectorDir.y); 
+    }
+
+    public string GetBindingText(Binding binding)
+    {
+        switch (binding)
+        {
+            default:
+            case Binding.MoveUp:
+                return inputActionsPlayer.Player.Move.bindings[1].ToDisplayString();
+            case Binding.MoveDown:
+                return inputActionsPlayer.Player.Move.bindings[2].ToDisplayString();
+            case Binding.MoveLeft:
+                return inputActionsPlayer.Player.Move.bindings[3].ToDisplayString();
+            case Binding.MoveRight:
+                return inputActionsPlayer.Player.Move.bindings[4].ToDisplayString();
+            case Binding.Interact:
+                return inputActionsPlayer.Player.Interact.bindings[0].ToDisplayString();
+            case Binding.InteractAlternate:
+                return inputActionsPlayer.Player.InteractCutting.bindings[0].ToDisplayString();
+            case Binding.Pause:
+                return inputActionsPlayer.Player.Pause.bindings[0].ToDisplayString();
+        }
+    }
+
+    public void RebindBinding(Binding binding, Action onActionRebound)
+    {
+        inputActionsPlayer.Player.Disable();
+
+        inputActionsPlayer.Player.Move.PerformInteractiveRebinding(1).OnComplete(callback => {
+            callback.Dispose();
+            
+            inputActionsPlayer.Player.Enable();
+            onActionRebound();
+        }).Start();
     }
 }
