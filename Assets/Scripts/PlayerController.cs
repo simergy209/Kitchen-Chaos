@@ -82,8 +82,8 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         {
             Vector3 inputVectorDirX = new Vector3(inputVectorDir.x, 0, 0);
             
-            //Trying to move in the X axis and there is nothing on there, then we can move
-            canMove = inputVectorDir.x != 0 && !(Physics.CapsuleCast(transform.position,
+            //Trying to move in the X axis and there is nothing on there, then we can move (the 0.5 deviation in both sides is for Gamepad controller input)
+            canMove = (inputVectorDir.x < -0.5f || inputVectorDir.x > 0.5f) && !(Physics.CapsuleCast(transform.position,
                 transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirX, maxDistance));
             if (canMove)
                 transform.position += inputVectorDirX * moveSpeed * Time.deltaTime;
@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
             {
                 Vector3 inputVectorDirZ = new Vector3(0, 0, inputVectorDir.z);
                 
-                //Trying to move in the Z axis and there is nothing on there, then we can move
-                canMove = inputVectorDir.z != 0 && !(Physics.CapsuleCast(transform.position,
+                //Trying to move in the Z axis and there is nothing on there, then we can move (the 0.5 deviation in both sides is for Gamepad controller input)
+                canMove = (inputVectorDir.z < -0.5f || inputVectorDir.z > 0.5f) && !(Physics.CapsuleCast(transform.position,
                     transform.position + Vector3.up * HeightPlayer, RadiusPlayer, inputVectorDirZ, maxDistance));
                 if (canMove)
                     transform.position += inputVectorDirZ * moveSpeed * Time.deltaTime;

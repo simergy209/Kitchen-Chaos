@@ -18,11 +18,10 @@ public class GameManager : MonoBehaviour
     }
 
     private State state;
-
-    private float waitingToStartTimer = 1f;
+    
     private float countingToStartTimer = 3f;
     private float gamePlayingTimer;
-    private float gamePlayingTimerMax = 10f;
+    private float gamePlayingTimerMax = 120;
     private bool isPaused = false;
 
 
@@ -38,6 +37,13 @@ public class GameManager : MonoBehaviour
         {
             PauseAndUnpauseGame();
         };
+        GameInput.Instance.OnInteract += (sender, args) =>
+        {
+            if (state == State.waitingToStart) {
+                state = State.countingToStart;
+                OnStateChanged?.Invoke(this, EventArgs.Empty);
+            }
+        };
     }
 
     private void Update()
@@ -46,11 +52,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.waitingToStart:
-                waitingToStartTimer -= Time.deltaTime;
-                if (waitingToStartTimer < 0) {
-                    state = State.countingToStart;
-                    OnStateChanged?.Invoke(this, EventArgs.Empty);
-                }
+                //We change the state on player input (with OnBindingRebind event on start)
                 break;
             case State.countingToStart:
                 countingToStartTimer -= Time.deltaTime;

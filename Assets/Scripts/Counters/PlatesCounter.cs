@@ -21,7 +21,7 @@ public class PlatesCounter : BaseCounter
         spwanPlateTimer += Time.deltaTime;
         if(spwanPlateTimer > spwanPlateTimerMax) {
                 spwanPlateTimer = 0;
-                if (spwanPlateAmount < spwanPlateAmountMax) {
+                if (GameManager.Instance.IsGamePlaying() && spwanPlateAmount < spwanPlateAmountMax) {
                     spwanPlateAmount++;
                     OnPlateSpwaned?.Invoke(this, EventArgs.Empty);
                 }

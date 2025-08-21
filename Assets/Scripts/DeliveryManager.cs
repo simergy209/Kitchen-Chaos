@@ -35,7 +35,7 @@ public class DeliveryManager : MonoBehaviour
         if (spwanRecipeTimer <= 0) {
             spwanRecipeTimer = spwanRecipeTimerMax;
             
-            if ( waitingRecipeSOList.Count < waitingRecipeMax) {
+            if (GameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count < waitingRecipeMax) {
                 RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
                 waitingRecipeSOList.Add(waitingRecipeSO);
                 OnRecipespwaned?.Invoke(this, EventArgs.Empty);

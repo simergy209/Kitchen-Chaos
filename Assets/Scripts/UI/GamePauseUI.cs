@@ -22,8 +22,8 @@ public class GamePauseUI : MonoBehaviour
         });
         optionsButton.onClick.AddListener(() =>
         {
-            OptionsUI.Instance.Show();
-
+            Hide();
+            OptionsUI.Instance.Show(Show);
         });
     }
 
@@ -44,6 +44,9 @@ public class GamePauseUI : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        
+        //For the first button(RESUME BUTTON) will be selected immediately, handles the gamepad controller input
+        resumeButton.Select();
     }
     public void Hide()
     {

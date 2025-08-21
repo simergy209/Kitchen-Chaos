@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 963dfc22aa92fbe45b1a3a226e71e2f3, type: 2}
   output: {fileID: 11400000, guid: d6fd294aae5463645af998b011cbacde, type: 2}
-  maxFryingProgress: 3
+  maxFryingProgress: 5
